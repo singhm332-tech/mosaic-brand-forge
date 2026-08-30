@@ -55,7 +55,7 @@ function Hero() {
       <div className="grid items-end gap-14 lg:grid-cols-[1.25fr_0.75fr]">
         <div>
           <Eyebrow>AdMosaic — Edmonton Marketing Agency</Eyebrow>
-          <h1 className="display mt-8 text-[clamp(2.75rem,8.5vw,7rem)]">
+          <h1 className="display mt-8 text-[clamp(2.5rem,6vw,5.25rem)]">
             Marketing that makes
             <br />
             businesses <em className="italic">impossible</em>
