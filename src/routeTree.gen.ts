@@ -11,7 +11,13 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as FlyerCampaignsRouteImport } from './routes/flyer-campaigns'
+import { Route as GraphicDesignRouteImport } from './routes/graphic-design'
+import { Route as NfcReviewCardsRouteImport } from './routes/nfc-review-cards'
 import { Route as ServicesRouteImport } from './routes/services'
+import { Route as SocialMediaMarketingRouteImport } from './routes/social-media-marketing'
+import { Route as WebDesignSeoRouteImport } from './routes/web-design-seo'
 import { Route as WorkRouteImport } from './routes/work'
 
 const IndexRoute = IndexRouteImport.update({
@@ -24,9 +30,39 @@ const AboutRoute = AboutRouteImport.update({
   path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FlyerCampaignsRoute = FlyerCampaignsRouteImport.update({
+  id: '/flyer-campaigns',
+  path: '/flyer-campaigns',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GraphicDesignRoute = GraphicDesignRouteImport.update({
+  id: '/graphic-design',
+  path: '/graphic-design',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NfcReviewCardsRoute = NfcReviewCardsRouteImport.update({
+  id: '/nfc-review-cards',
+  path: '/nfc-review-cards',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ServicesRoute = ServicesRouteImport.update({
   id: '/services',
   path: '/services',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SocialMediaMarketingRoute = SocialMediaMarketingRouteImport.update({
+  id: '/social-media-marketing',
+  path: '/social-media-marketing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WebDesignSeoRoute = WebDesignSeoRouteImport.update({
+  id: '/web-design-seo',
+  path: '/web-design-seo',
   getParentRoute: () => rootRouteImport,
 } as any)
 const WorkRoute = WorkRouteImport.update({
@@ -38,34 +74,89 @@ const WorkRoute = WorkRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
+  '/flyer-campaigns': typeof FlyerCampaignsRoute
+  '/graphic-design': typeof GraphicDesignRoute
+  '/nfc-review-cards': typeof NfcReviewCardsRoute
   '/services': typeof ServicesRoute
+  '/social-media-marketing': typeof SocialMediaMarketingRoute
+  '/web-design-seo': typeof WebDesignSeoRoute
   '/work': typeof WorkRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
+  '/flyer-campaigns': typeof FlyerCampaignsRoute
+  '/graphic-design': typeof GraphicDesignRoute
+  '/nfc-review-cards': typeof NfcReviewCardsRoute
   '/services': typeof ServicesRoute
+  '/social-media-marketing': typeof SocialMediaMarketingRoute
+  '/web-design-seo': typeof WebDesignSeoRoute
   '/work': typeof WorkRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
+  '/flyer-campaigns': typeof FlyerCampaignsRoute
+  '/graphic-design': typeof GraphicDesignRoute
+  '/nfc-review-cards': typeof NfcReviewCardsRoute
   '/services': typeof ServicesRoute
+  '/social-media-marketing': typeof SocialMediaMarketingRoute
+  '/web-design-seo': typeof WebDesignSeoRoute
   '/work': typeof WorkRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/services' | '/work'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/flyer-campaigns'
+    | '/graphic-design'
+    | '/nfc-review-cards'
+    | '/services'
+    | '/social-media-marketing'
+    | '/web-design-seo'
+    | '/work'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/services' | '/work'
-  id: '__root__' | '/' | '/about' | '/services' | '/work'
+  to:
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/flyer-campaigns'
+    | '/graphic-design'
+    | '/nfc-review-cards'
+    | '/services'
+    | '/social-media-marketing'
+    | '/web-design-seo'
+    | '/work'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/flyer-campaigns'
+    | '/graphic-design'
+    | '/nfc-review-cards'
+    | '/services'
+    | '/social-media-marketing'
+    | '/web-design-seo'
+    | '/work'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  ContactRoute: typeof ContactRoute
+  FlyerCampaignsRoute: typeof FlyerCampaignsRoute
+  GraphicDesignRoute: typeof GraphicDesignRoute
+  NfcReviewCardsRoute: typeof NfcReviewCardsRoute
   ServicesRoute: typeof ServicesRoute
+  SocialMediaMarketingRoute: typeof SocialMediaMarketingRoute
+  WebDesignSeoRoute: typeof WebDesignSeoRoute
   WorkRoute: typeof WorkRoute
 }
 
@@ -85,11 +176,53 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/flyer-campaigns': {
+      id: '/flyer-campaigns'
+      path: '/flyer-campaigns'
+      fullPath: '/flyer-campaigns'
+      preLoaderRoute: typeof FlyerCampaignsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/graphic-design': {
+      id: '/graphic-design'
+      path: '/graphic-design'
+      fullPath: '/graphic-design'
+      preLoaderRoute: typeof GraphicDesignRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/nfc-review-cards': {
+      id: '/nfc-review-cards'
+      path: '/nfc-review-cards'
+      fullPath: '/nfc-review-cards'
+      preLoaderRoute: typeof NfcReviewCardsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/services': {
       id: '/services'
       path: '/services'
       fullPath: '/services'
       preLoaderRoute: typeof ServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/social-media-marketing': {
+      id: '/social-media-marketing'
+      path: '/social-media-marketing'
+      fullPath: '/social-media-marketing'
+      preLoaderRoute: typeof SocialMediaMarketingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/web-design-seo': {
+      id: '/web-design-seo'
+      path: '/web-design-seo'
+      fullPath: '/web-design-seo'
+      preLoaderRoute: typeof WebDesignSeoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/work': {
@@ -105,7 +238,13 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  ContactRoute: ContactRoute,
+  FlyerCampaignsRoute: FlyerCampaignsRoute,
+  GraphicDesignRoute: GraphicDesignRoute,
+  NfcReviewCardsRoute: NfcReviewCardsRoute,
   ServicesRoute: ServicesRoute,
+  SocialMediaMarketingRoute: SocialMediaMarketingRoute,
+  WebDesignSeoRoute: WebDesignSeoRoute,
   WorkRoute: WorkRoute,
 }
 export const routeTree = rootRouteImport

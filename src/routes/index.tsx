@@ -171,7 +171,8 @@ function ServicesIndex() {
 }
 
 function SelectedWork() {
-  const [wide, ...rest] = projects;
+  const wide = projects[0]!;
+  const rest = projects.slice(1);
 
   return (
     <Section tone="sand" id="work">

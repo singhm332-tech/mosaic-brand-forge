@@ -25,7 +25,8 @@ export const Route = createFileRoute("/work")({
 });
 
 function WorkPage() {
-  const [lead, ...rest] = projects;
+  const lead = projects[0]!;
+  const rest = projects.slice(1);
 
   return (
     <>
