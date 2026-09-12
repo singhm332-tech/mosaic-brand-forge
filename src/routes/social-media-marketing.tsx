@@ -1,10 +1,42 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ServicePage } from "@/components/site/ServicePage";
+import { ReelShowcase, type ReelItem } from "@/components/site/ReelShowcase";
 import socialImg from "@/assets/social-grid.jpg";
+import webImg from "@/assets/web-mockup.jpg";
+import flyerImg from "@/assets/flyer-campaign.jpg";
+import designImg from "@/assets/design-collateral.jpg";
 
 const title = "Social Media Marketing — AdMosaic, Edmonton";
 const description =
   "Social media strategy, content creation, reels and account management that keeps a business consistent and on-brand.";
+
+/**
+ * Reel portfolio entries.
+ * Replace each client name and add its full Instagram Reel URL when ready.
+ * Valid /reel/, /reels/ and /p/ Instagram links become playable embeds automatically.
+ */
+const reelPortfolio: ReelItem[] = [
+  {
+    client: "Client name — 01",
+    cover: socialImg,
+    alt: "Placeholder cover for a client Instagram Reel",
+  },
+  {
+    client: "Client name — 02",
+    cover: webImg,
+    alt: "Placeholder cover for a client Instagram Reel",
+  },
+  {
+    client: "Client name — 03",
+    cover: flyerImg,
+    alt: "Placeholder cover for a client Instagram Reel",
+  },
+  {
+    client: "Client name — 04",
+    cover: designImg,
+    alt: "Placeholder cover for a client Instagram Reel",
+  },
+];
 
 export const Route = createFileRoute("/social-media-marketing")({
   head: () => ({
@@ -57,6 +89,7 @@ function Page() {
           </p>
         </>
       }
+      showcase={<ReelShowcase reels={reelPortfolio} />}
       process={[
         { step: "01", label: "Audit", text: "A look at the current presence, competitors and audience." },
         { step: "02", label: "Plan", text: "Content pillars, tone and a realistic monthly calendar." },
