@@ -23,7 +23,7 @@ export type PublicProject = {
 
 export type PublicReel = {
   client: string;
-  instagramUrl?: string;
+  instagramUrl?: string | undefined;
   cover: string;
   alt: string;
 };

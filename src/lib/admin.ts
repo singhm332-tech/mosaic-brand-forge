@@ -40,7 +40,7 @@ export async function uploadMedia(file: File, meta?: { title?: string; alt?: str
 
   const { error: uploadError } = await supabase.storage
     .from("media")
-    .upload(path, file, { cacheControl: "3600", contentType: file.type || undefined });
+    .upload(path, file, { cacheControl: "3600", contentType: file.type || "application/octet-stream" });
   if (uploadError) throw uploadError;
 
   const publicUrl = `/api/public/media/${path}`;
