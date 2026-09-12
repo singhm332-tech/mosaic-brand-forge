@@ -85,10 +85,22 @@ export function Field({
   hint?: string;
   children: ReactNode;
 }) {
+  const generatedId = useId();
+  // Associate the visible label with its control so the form is usable with
+  // assistive technology and clicking the label focuses the input.
+  const control =
+    isValidElement(children) && !(children.props as { id?: string }).id
+      ? cloneElement(children as ReactElement<{ id?: string }>, { id: generatedId })
+      : children;
+  const htmlFor =
+    isValidElement(children) && (children.props as { id?: string }).id
+      ? (children.props as { id?: string }).id
+      : generatedId;
+
   return (
     <div className="space-y-2">
-      <Label>{label}</Label>
-      {children}
+      <Label htmlFor={htmlFor}>{label}</Label>
+      {control}
       {hint && <p className="text-xs text-muted-foreground">{hint}</p>}
     </div>
   );
