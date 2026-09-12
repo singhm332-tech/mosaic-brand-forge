@@ -49,7 +49,7 @@ const blank = {
   thumbnail_alt: "",
   display_order: 0,
   featured: false,
-  status: "draft" as const,
+  status: "draft" as "draft" | "published",
 };
 
 function ReelsPage() {
@@ -173,7 +173,7 @@ function ReelsPage() {
                     id="reel-status"
                     checked={editing.status === "published"}
                     onCheckedChange={(v) =>
-                      setEditing({ ...editing, status: v ? "published" : ("draft" as const) })
+                      setEditing({ ...editing, status: v ? "published" : "draft" })
                     }
                   />
                   <Label htmlFor="reel-status">Published</Label>

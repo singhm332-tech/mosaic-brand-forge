@@ -59,7 +59,7 @@ const blank = {
   website_url: "",
   featured: false,
   display_order: 0,
-  status: "draft" as const,
+  status: "draft" as "draft" | "published",
   seo_title: "",
   seo_description: "",
 };
@@ -249,7 +249,7 @@ function ProjectsPage() {
                       id="status"
                       checked={editing.status === "published"}
                       onCheckedChange={(v) =>
-                        setEditing({ ...editing, status: v ? "published" : ("draft" as const) })
+                        setEditing({ ...editing, status: v ? "published" : "draft" })
                       }
                     />
                     <Label htmlFor="status">Published</Label>
