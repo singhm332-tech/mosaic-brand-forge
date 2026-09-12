@@ -13,6 +13,7 @@ export function ServicePage({
   capabilities,
   body,
   process,
+  showcase,
   cta,
   current,
 }: {
@@ -25,6 +26,7 @@ export function ServicePage({
   capabilities: string[];
   body: ReactNode;
   process?: { step: string; label: string; text: string }[];
+  showcase?: ReactNode;
   cta: string;
   current: ServiceRoute;
 }) {
@@ -78,6 +80,8 @@ export function ServicePage({
           </Reveal>
         </div>
       </Section>
+
+      {showcase}
 
       {process ? (
         <Section tone="dark" className="py-24">
