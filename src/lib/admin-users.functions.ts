@@ -34,11 +34,26 @@ export const bootstrapAdmin = createServerFn({ method: "POST" })
       password: data.password,
       email_confirm: true,
     });
-    if (error || !created.user) throw new Error(error?.message ?? "Could not create the account.");
+
+    let userId = created?.user?.id;
+
+    // The email may already exist without an admin role (e.g. an interrupted setup).
+    if (!userId) {
+      const { data: existing } = await supabaseAdmin.auth.admin.listUsers({ perPage: 1000 });
+      const match = existing?.users.find(
+        (user) => user.email?.toLowerCase() === data.email.toLowerCase(),
+      );
+      if (!match) throw new Error(error?.message ?? "Could not create the account.");
+      await supabaseAdmin.auth.admin.updateUserById(match.id, {
+        password: data.password,
+        email_confirm: true,
+      });
+      userId = match.id;
+    }
 
     const { error: roleError } = await supabaseAdmin
       .from("user_roles")
-      .insert({ user_id: created.user.id, role: "admin" });
+      .insert({ user_id: userId, role: "admin" });
     if (roleError) throw new Error(roleError.message);
 
     return { ok: true };
