@@ -293,6 +293,96 @@ export type Database = {
         }
         Relationships: []
       }
+      services: {
+        Row: {
+          active: boolean
+          cover_image_alt: string | null
+          cover_image_url: string | null
+          created_at: string
+          cta_text: string | null
+          display_order: number
+          featured_image_url: string | null
+          full_description: string | null
+          id: string
+          name: string
+          number_label: string
+          seo_description: string | null
+          seo_title: string | null
+          short_description: string | null
+          slug: string
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          cover_image_alt?: string | null
+          cover_image_url?: string | null
+          created_at?: string
+          cta_text?: string | null
+          display_order?: number
+          featured_image_url?: string | null
+          full_description?: string | null
+          id?: string
+          name: string
+          number_label?: string
+          seo_description?: string | null
+          seo_title?: string | null
+          short_description?: string | null
+          slug: string
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          cover_image_alt?: string | null
+          cover_image_url?: string | null
+          created_at?: string
+          cta_text?: string | null
+          display_order?: number
+          featured_image_url?: string | null
+          full_description?: string | null
+          id?: string
+          name?: string
+          number_label?: string
+          seo_description?: string | null
+          seo_title?: string | null
+          short_description?: string | null
+          slug?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      site_content: {
+        Row: {
+          created_at: string
+          display_order: number
+          group_name: string
+          key: string
+          label: string | null
+          multiline: boolean
+          updated_at: string
+          value: string
+        }
+        Insert: {
+          created_at?: string
+          display_order?: number
+          group_name?: string
+          key: string
+          label?: string | null
+          multiline?: boolean
+          updated_at?: string
+          value?: string
+        }
+        Update: {
+          created_at?: string
+          display_order?: number
+          group_name?: string
+          key?: string
+          label?: string | null
+          multiline?: boolean
+          updated_at?: string
+          value?: string
+        }
+        Relationships: []
+      }
       testimonials: {
         Row: {
           business_name: string | null
