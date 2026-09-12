@@ -4,7 +4,7 @@ import { Eyebrow, Section } from "./Primitives";
 
 export type ReelItem = {
   client: string;
-  instagramUrl?: string;
+  instagramUrl?: string | undefined;
   cover: string;
   alt: string;
 };

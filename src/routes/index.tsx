@@ -3,7 +3,8 @@ import { useState } from "react";
 import { Reveal } from "@/components/site/Reveal";
 import { Arrow, ButtonLink, Eyebrow, Section, SectionHeading } from "@/components/site/Primitives";
 import { FinalCta } from "@/components/site/ServicePage";
-import { projects, services, testimonials } from "@/data/site";
+import { projects as fallbackProjects, services, testimonials as fallbackTestimonials } from "@/data/site";
+import { getPublicProjects, getPublicTestimonials } from "@/lib/public-content.functions";
 import heroImg from "@/assets/hero-collateral.jpg";
 import webImg from "@/assets/web-mockup.jpg";
 import flyerImg from "@/assets/flyer-campaign.jpg";
@@ -26,6 +27,10 @@ export const Route = createFileRoute("/")({
       { property: "og:type", content: "website" },
     ],
     links: [{ rel: "canonical", href: "/" }],
+  }),
+  loader: async () => ({
+    dbProjects: await getPublicProjects(),
+    dbTestimonials: await getPublicTestimonials(),
   }),
   component: Home,
 });
@@ -171,6 +176,8 @@ function ServicesIndex() {
 }
 
 function SelectedWork() {
+  const { dbProjects } = Route.useLoaderData();
+  const projects = dbProjects.length > 0 ? dbProjects : fallbackProjects;
   const wide = projects[0]!;
   const rest = projects.slice(1);
 
@@ -210,7 +217,15 @@ export function ProjectCard({
   project,
   priority = false,
 }: {
-  project: (typeof projects)[number];
+  project: {
+    slug: string;
+    client: string;
+    disciplines: string[];
+    description: string;
+    image: string;
+    alt: string;
+    size: "wide" | "half";
+  };
   priority?: boolean;
 }) {
   return (
@@ -526,6 +541,8 @@ function WhyAdMosaic() {
 }
 
 function Testimonials() {
+  const { dbTestimonials } = Route.useLoaderData();
+  const testimonials = dbTestimonials.length > 0 ? dbTestimonials : fallbackTestimonials;
   if (testimonials.length === 0) return null;
 
   return (
