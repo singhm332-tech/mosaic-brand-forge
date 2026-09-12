@@ -21,8 +21,21 @@ export const Route = createFileRoute("/_authenticated/admin")({
   component: AdminLayout,
 });
 
-const nav: { to: "/admin"; label: string; icon: typeof LayoutDashboard; exact?: boolean }[] = [
-  { to: "/admin" as const, label: "Dashboard", icon: LayoutDashboard, exact: true },
+type AdminPath =
+  | "/admin"
+  | "/admin/projects"
+  | "/admin/reels"
+  | "/admin/media"
+  | "/admin/testimonials"
+  | "/admin/services"
+  | "/admin/content"
+  | "/admin/leads"
+  | "/admin/seo"
+  | "/admin/activity"
+  | "/admin/settings";
+
+const nav: { to: AdminPath; label: string; icon: typeof LayoutDashboard; exact?: boolean }[] = [
+  { to: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
   { to: "/admin/projects", label: "Projects", icon: FolderOpen },
   { to: "/admin/reels", label: "Social Media / Reels", icon: Clapperboard },
   { to: "/admin/media", label: "Images & Media", icon: ImageIcon },
