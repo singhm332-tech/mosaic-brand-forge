@@ -3,7 +3,8 @@ import { Reveal } from "@/components/site/Reveal";
 import { Eyebrow, Section } from "@/components/site/Primitives";
 import { FinalCta } from "@/components/site/ServicePage";
 import { ProjectCard } from "./index";
-import { projects } from "@/data/site";
+import { projects as fallbackProjects } from "@/data/site";
+import { getPublicProjects } from "@/lib/public-content.functions";
 
 const title = "Selected Work — AdMosaic Marketing";
 const description =
@@ -21,10 +22,13 @@ export const Route = createFileRoute("/work")({
     ],
     links: [{ rel: "canonical", href: "/work" }],
   }),
+  loader: async () => ({ dbProjects: await getPublicProjects() }),
   component: WorkPage,
 });
 
 function WorkPage() {
+  const { dbProjects } = Route.useLoaderData();
+  const projects = dbProjects.length > 0 ? dbProjects : fallbackProjects;
   const lead = projects[0]!;
   const rest = projects.slice(1);
 

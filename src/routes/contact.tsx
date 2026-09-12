@@ -3,6 +3,8 @@ import { useState, type FormEvent } from "react";
 import { Reveal } from "@/components/site/Reveal";
 import { Arrow, Eyebrow, Section } from "@/components/site/Primitives";
 import { services } from "@/data/site";
+import { supabase } from "@/integrations/supabase/client";
+import { z } from "zod";
 
 const title = "Contact — AdMosaic Marketing, Edmonton";
 const description =
@@ -26,23 +28,48 @@ export const Route = createFileRoute("/contact")({
 const field =
   "w-full border-b border-border bg-transparent py-3 text-base outline-none transition-colors duration-200 placeholder:text-muted-foreground/70 focus:border-foreground";
 
+const leadSchema = z.object({
+  name: z.string().trim().min(1).max(120),
+  business_name: z.string().trim().max(140),
+  email: z.string().trim().email().max(255),
+  services: z.array(z.string().max(60)).max(10),
+  message: z.string().trim().min(1).max(2000),
+});
+
 function ContactPage() {
   const [sent, setSent] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [busy, setBusy] = useState(false);
 
-  function onSubmit(e: FormEvent<HTMLFormElement>) {
+  async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const data = new FormData(e.currentTarget);
-    const body = [
-      `Name: ${data.get("name")}`,
-      `Business: ${data.get("business")}`,
-      `Email: ${data.get("email")}`,
-      `Interested in: ${data.getAll("service").join(", ") || "—"}`,
-      "",
-      String(data.get("message") ?? ""),
-    ].join("\n");
-    window.location.href = `mailto:hello@admosaicmarketing.com?subject=${encodeURIComponent(
-      "New project enquiry",
-    )}&body=${encodeURIComponent(body)}`;
+    const form = e.currentTarget;
+    const data = new FormData(form);
+
+    const parsed = leadSchema.safeParse({
+      name: String(data.get("name") ?? ""),
+      business_name: String(data.get("business") ?? ""),
+      email: String(data.get("email") ?? ""),
+      services: data.getAll("service").map(String),
+      message: String(data.get("message") ?? ""),
+    });
+
+    if (!parsed.success) {
+      setError("Please check your name, email and message and try again.");
+      return;
+    }
+
+    setBusy(true);
+    setError(null);
+    const { error: insertError } = await supabase.from("leads").insert(parsed.data);
+    setBusy(false);
+
+    if (insertError) {
+      setError("We couldn't send that. Please email hello@admosaicmarketing.com instead.");
+      return;
+    }
+
+    form.reset();
     setSent(true);
   }
 
@@ -127,15 +154,14 @@ function ContactPage() {
 
               <button
                 type="submit"
+                disabled={busy}
                 className="group inline-flex items-center gap-2.5 bg-ink px-6 py-3.5 text-sm font-medium text-ink-foreground transition-colors duration-200 hover:bg-accent hover:text-accent-foreground"
               >
-                Send enquiry <Arrow />
+                {busy ? "Sending…" : "Send enquiry"} <Arrow />
               </button>
 
               <p aria-live="polite" className="text-sm text-muted-foreground">
-                {sent
-                  ? "Your email client should be open with the details ready to send."
-                  : null}
+                {error ?? (sent ? "Thanks — we've received your enquiry and will reply within two business days." : null)}
               </p>
             </form>
           </Reveal>

@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ServicePage } from "@/components/site/ServicePage";
 import { ReelShowcase, type ReelItem } from "@/components/site/ReelShowcase";
+import { getPublicReels } from "@/lib/public-content.functions";
 import socialImg from "@/assets/social-grid.jpg";
 import webImg from "@/assets/web-mockup.jpg";
 import flyerImg from "@/assets/flyer-campaign.jpg";
@@ -50,10 +51,14 @@ export const Route = createFileRoute("/social-media-marketing")({
     ],
     links: [{ rel: "canonical", href: "/social-media-marketing" }],
   }),
+  loader: async () => ({ dbReels: await getPublicReels() }),
   component: Page,
 });
 
 function Page() {
+  const { dbReels } = Route.useLoaderData();
+  const reels = dbReels.length > 0 ? dbReels : reelPortfolio;
+
   return (
     <ServicePage
       current="/social-media-marketing"
@@ -89,7 +94,7 @@ function Page() {
           </p>
         </>
       }
-      showcase={<ReelShowcase reels={reelPortfolio} />}
+      showcase={<ReelShowcase reels={reels} />}
       process={[
         { step: "01", label: "Audit", text: "A look at the current presence, competitors and audience." },
         { step: "02", label: "Plan", text: "Content pillars, tone and a realistic monthly calendar." },
