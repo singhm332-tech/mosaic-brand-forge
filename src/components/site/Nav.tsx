@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
+import { Logo } from "./Logo";
 
 const links = [
   { to: "/services", label: "Services" },
@@ -8,14 +9,6 @@ const links = [
   { to: "/about", label: "About" },
   { to: "/contact", label: "Contact" },
 ] as const;
-
-export function Wordmark({ className }: { className?: string }) {
-  return (
-    <span className={cn("text-[0.95rem] font-medium tracking-[0.22em] uppercase", className)}>
-      Ad<span className="text-accent">·</span>Mosaic
-    </span>
-  );
-}
 
 export function Nav() {
   const [scrolled, setScrolled] = useState(false);
@@ -44,7 +37,7 @@ export function Nav() {
     >
       <div className="shell flex h-[72px] items-center justify-between">
         <Link to="/" className="flex items-center" aria-label="AdMosaic Marketing — home">
-          <Wordmark />
+          <Logo className="h-10 sm:h-11" />
         </Link>
 
         <nav aria-label="Primary" className="hidden items-center gap-9 md:flex">
