@@ -59,6 +59,28 @@ export function ButtonLink({ variant = "solid", className, children, ...props }:
   );
 }
 
+/** Renders an admin-edited value when present, otherwise the built-in content. */
+export function T({ value, children }: { value?: string; children: ReactNode }) {
+  if (!value) return <>{children}</>;
+  return <span className="whitespace-pre-line">{value}</span>;
+}
+
+/** Renders admin-edited copy as paragraphs, otherwise the built-in content. */
+export function Copy({ value, children }: { value?: string; children: ReactNode }) {
+  if (!value) return <>{children}</>;
+  return (
+    <>
+      {value
+        .split(/\n+/)
+        .map((line) => line.trim())
+        .filter(Boolean)
+        .map((line, i) => (
+          <p key={i}>{line}</p>
+        ))}
+    </>
+  );
+}
+
 export function Arrow({ className }: { className?: string }) {
   return (
     <span

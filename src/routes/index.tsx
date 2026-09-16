@@ -1,7 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Reveal } from "@/components/site/Reveal";
-import { Arrow, ButtonLink, Eyebrow, Section, SectionHeading } from "@/components/site/Primitives";
+import { Arrow, ButtonLink, Copy, Eyebrow, Section, SectionHeading, T } from "@/components/site/Primitives";
+import { useSiteContent } from "@/lib/content";
 import { FinalCta } from "@/components/site/ServicePage";
 import { projects as fallbackProjects, services, testimonials as fallbackTestimonials } from "@/data/site";
 import { getPublicProjects, getPublicTestimonials } from "@/lib/public-content.functions";
@@ -55,21 +56,29 @@ function Home() {
 }
 
 function Hero() {
+  const { get } = useSiteContent();
+
   return (
     <section className="shell pt-16 pb-20 md:pt-24 md:pb-28">
       <div className="grid items-end gap-14 lg:grid-cols-[1.25fr_0.75fr]">
         <div>
-          <Eyebrow>AdMosaic — Edmonton Marketing Agency</Eyebrow>
+          <Eyebrow>{get("home_hero_eyebrow", "AdMosaic — Edmonton Marketing Agency")}</Eyebrow>
           <h1 className="display mt-8 text-[clamp(2.5rem,6vw,5.25rem)]">
-            Marketing that makes
-            <br />
-            businesses <em className="italic">impossible</em>
-            <br />
-            to overlook.
+            <T value={get("home_hero_headline", "")}>
+              <>
+                Marketing that makes
+                <br />
+                businesses <em className="italic">impossible</em>
+                <br />
+                to overlook.
+              </>
+            </T>
           </h1>
           <p className="mt-10 max-w-lg text-base leading-relaxed text-muted-foreground md:text-lg">
-            AdMosaic combines digital strategy, design and local marketing to help businesses
-            build stronger brands and reach more customers.
+            {get(
+              "home_hero_subheading",
+              "AdMosaic combines digital strategy, design and local marketing to help businesses build stronger brands and reach more customers.",
+            )}
           </p>
           <div className="mt-10 flex flex-wrap items-center gap-4">
             <ButtonLink to="/contact">
@@ -82,7 +91,7 @@ function Hero() {
         </div>
 
         <img
-          src={heroImg}
+          src={get("home_hero_image", heroImg)}
           alt="Printed AdMosaic campaign collateral arranged on a warm ivory surface"
           width={1600}
           height={1200}
@@ -103,20 +112,26 @@ function Hero() {
 }
 
 function Statement() {
+  const { get } = useSiteContent();
+
   return (
     <Section tone="sand">
       <div className="shell grid gap-12 md:grid-cols-[1fr_1fr]">
         <Reveal>
           <h2 className="display text-[clamp(2.25rem,5.5vw,4.25rem)]">
-            Everything your brand needs to move forward.
+            {get("home_intro_headline", "Everything your brand needs to move forward.")}
           </h2>
         </Reveal>
         <Reveal delay={80} className="space-y-6 self-end text-base leading-relaxed text-muted-foreground md:text-lg">
-          <p>
-            Businesses shouldn't need five different companies to manage their website, social
-            media, print marketing, design and online reputation.
-          </p>
-          <p>AdMosaic brings those pieces together under one creative partner.</p>
+          <Copy value={get("home_intro_body", "")}>
+            <>
+              <p>
+                Businesses shouldn't need five different companies to manage their website, social
+                media, print marketing, design and online reputation.
+              </p>
+              <p>AdMosaic brings those pieces together under one creative partner.</p>
+            </>
+          </Copy>
         </Reveal>
       </div>
     </Section>
@@ -176,6 +191,7 @@ function ServicesIndex() {
 }
 
 function SelectedWork() {
+  const { get } = useSiteContent();
   const { dbProjects } = Route.useLoaderData();
   const projects = dbProjects.length > 0 ? dbProjects : fallbackProjects;
   const wide = projects[0]!;
@@ -186,8 +202,11 @@ function SelectedWork() {
       <div className="shell">
         <SectionHeading
           eyebrow="Portfolio"
-          title="Selected Work"
-          intro="A look at how we help businesses show up better — online and offline."
+          title={get("home_work_title", "Selected Work")}
+          intro={get(
+            "home_work_intro",
+            "A look at how we help businesses show up better — online and offline.",
+          )}
         />
 
         <div className="mt-16 space-y-16">
@@ -252,6 +271,7 @@ export function ProjectCard({
 }
 
 function FlyerFeature() {
+  const { get } = useSiteContent();
   const steps = [
     { step: "01", label: "Strategy" },
     { step: "02", label: "Design" },
@@ -263,17 +283,25 @@ function FlyerFeature() {
     <Section tone="dark">
       <div className="shell grid items-center gap-16 lg:grid-cols-2">
         <Reveal>
-          <Eyebrow className="text-ink-muted">03 — Solo Flyer Campaigns</Eyebrow>
-          <h2 className="display mt-8 text-[clamp(2.5rem,6vw,4.5rem)]">Own the mailbox.</h2>
+          <Eyebrow className="text-ink-muted">
+            {get("home_flyer_eyebrow", "03 — Solo Flyer Campaigns")}
+          </Eyebrow>
+          <h2 className="display mt-8 text-[clamp(2.5rem,6vw,4.5rem)]">
+            {get("home_flyer_headline", "Own the mailbox.")}
+          </h2>
           <div className="mt-8 max-w-lg space-y-5 text-base leading-relaxed text-ink-muted md:text-lg">
-            <p>
-              Digital ads disappear with a scroll. A great piece of print gets held, noticed and
-              remembered.
-            </p>
-            <p>
-              AdMosaic creates dedicated flyer campaigns for businesses — from design and targeting
-              to preparing the campaign for local distribution.
-            </p>
+            <Copy value={get("home_flyer_body", "")}>
+              <>
+                <p>
+                  Digital ads disappear with a scroll. A great piece of print gets held, noticed and
+                  remembered.
+                </p>
+                <p>
+                  AdMosaic creates dedicated flyer campaigns for businesses — from design and
+                  targeting to preparing the campaign for local distribution.
+                </p>
+              </>
+            </Copy>
           </div>
 
           <ol className="mt-12 grid grid-cols-2 gap-px bg-ink-border sm:grid-cols-4">
@@ -294,7 +322,7 @@ function FlyerFeature() {
 
         <Reveal delay={80}>
           <img
-            src={flyerImg}
+            src={get("home_flyer_image", flyerImg)}
             alt="A single premium direct-mail postcard designed for one local business"
             loading="lazy"
             width={1408}
@@ -308,6 +336,7 @@ function FlyerFeature() {
 }
 
 function WebFeature() {
+  const { get } = useSiteContent();
   const highlights = [
     "Responsive Design",
     "Local SEO Foundations",
@@ -321,16 +350,18 @@ function WebFeature() {
       <div className="shell">
         <div className="grid gap-14 lg:grid-cols-[1fr_1fr]">
           <Reveal>
-            <Eyebrow>02 — Websites & SEO</Eyebrow>
+            <Eyebrow>{get("home_web_eyebrow", "02 — Websites & SEO")}</Eyebrow>
             <h2 className="display mt-8 text-[clamp(2.25rem,5.5vw,4.25rem)]">
-              Your website should work as hard as you do.
+              {get("home_web_headline", "Your website should work as hard as you do.")}
             </h2>
           </Reveal>
           <Reveal delay={80} className="max-w-lg self-end space-y-5 text-base leading-relaxed text-muted-foreground md:text-lg">
-            <p>
-              We build fast, mobile-first websites designed around credibility, usability and
-              conversion — with a clean structure search engines can read.
-            </p>
+            <Copy value={get("home_web_body", "")}>
+              <p>
+                We build fast, mobile-first websites designed around credibility, usability and
+                conversion — with a clean structure search engines can read.
+              </p>
+            </Copy>
             <div className="pt-2">
               <ButtonLink to="/web-design-seo">
                 Build My Website <Arrow />
@@ -341,7 +372,7 @@ function WebFeature() {
 
         <Reveal className="mt-16">
           <img
-            src={webImg}
+            src={get("home_web_image", webImg)}
             alt="Desktop and mobile mockups of a modern business website built by AdMosaic"
             loading="lazy"
             width={1600}
