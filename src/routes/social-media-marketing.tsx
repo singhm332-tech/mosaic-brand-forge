@@ -68,6 +68,7 @@ function Page() {
       intro="A plan, a look and a posting rhythm — instead of whatever fits into the day."
       image={socialImg}
       alt="Grid of nine on-brand social media posts designed for a local business"
+      hideImage
       cta="Start a Project"
       capabilities={[
         "Social media strategy",

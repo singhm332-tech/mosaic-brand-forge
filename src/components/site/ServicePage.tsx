@@ -14,6 +14,7 @@ export function ServicePage({
   body,
   process,
   showcase,
+  hideImage = false,
   cta,
   current,
 }: {
@@ -27,6 +28,7 @@ export function ServicePage({
   body: ReactNode;
   process?: { step: string; label: string; text: string }[];
   showcase?: ReactNode;
+  hideImage?: boolean;
   cta: string;
   current: ServiceRoute;
 }) {
@@ -52,16 +54,18 @@ export function ServicePage({
         </Reveal>
       </section>
 
-      <Reveal className="shell">
-        <img
-          src={image}
-          alt={alt}
-          loading="lazy"
-          width={1600}
-          height={1100}
-          className="w-full object-cover"
-        />
-      </Reveal>
+      {!hideImage ? (
+        <Reveal className="shell">
+          <img
+            src={image}
+            alt={alt}
+            loading="lazy"
+            width={1600}
+            height={1100}
+            className="w-full object-cover"
+          />
+        </Reveal>
+      ) : null}
 
       <Section>
         <div className="shell grid gap-16 md:grid-cols-[1.1fr_0.9fr]">

@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import { Logo } from "./Logo";
 
 const services = [
   { to: "/social-media-marketing", label: "Social Media" },
@@ -21,6 +22,9 @@ export function Footer() {
       <div className="shell pt-24 pb-12">
         <div className="grid gap-14 md:grid-cols-[1.2fr_1fr_1fr_1fr]">
           <div>
+            <Link to="/" aria-label="AdMosaic Marketing — home">
+              <Logo light className="h-12" />
+            </Link>
             <p className="eyebrow text-ink-muted">Edmonton, Alberta — Canada</p>
             <p className="mt-6 max-w-xs text-sm leading-relaxed text-ink-muted">
               A marketing agency for businesses that want their brand to look the part —
