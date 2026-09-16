@@ -354,30 +354,36 @@ export type Database = {
         Row: {
           created_at: string
           display_order: number
+          field_type: string
           group_name: string
           key: string
           label: string | null
           multiline: boolean
+          page: string
           updated_at: string
           value: string
         }
         Insert: {
           created_at?: string
           display_order?: number
+          field_type?: string
           group_name?: string
           key: string
           label?: string | null
           multiline?: boolean
+          page?: string
           updated_at?: string
           value?: string
         }
         Update: {
           created_at?: string
           display_order?: number
+          field_type?: string
           group_name?: string
           key?: string
           label?: string | null
           multiline?: boolean
+          page?: string
           updated_at?: string
           value?: string
         }
