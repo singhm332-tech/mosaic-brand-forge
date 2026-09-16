@@ -271,6 +271,7 @@ export function ProjectCard({
 }
 
 function FlyerFeature() {
+  const { get } = useSiteContent();
   const steps = [
     { step: "01", label: "Strategy" },
     { step: "02", label: "Design" },
@@ -282,17 +283,25 @@ function FlyerFeature() {
     <Section tone="dark">
       <div className="shell grid items-center gap-16 lg:grid-cols-2">
         <Reveal>
-          <Eyebrow className="text-ink-muted">03 — Solo Flyer Campaigns</Eyebrow>
-          <h2 className="display mt-8 text-[clamp(2.5rem,6vw,4.5rem)]">Own the mailbox.</h2>
+          <Eyebrow className="text-ink-muted">
+            {get("home_flyer_eyebrow", "03 — Solo Flyer Campaigns")}
+          </Eyebrow>
+          <h2 className="display mt-8 text-[clamp(2.5rem,6vw,4.5rem)]">
+            {get("home_flyer_headline", "Own the mailbox.")}
+          </h2>
           <div className="mt-8 max-w-lg space-y-5 text-base leading-relaxed text-ink-muted md:text-lg">
-            <p>
-              Digital ads disappear with a scroll. A great piece of print gets held, noticed and
-              remembered.
-            </p>
-            <p>
-              AdMosaic creates dedicated flyer campaigns for businesses — from design and targeting
-              to preparing the campaign for local distribution.
-            </p>
+            <Copy value={get("home_flyer_body", "")}>
+              <>
+                <p>
+                  Digital ads disappear with a scroll. A great piece of print gets held, noticed and
+                  remembered.
+                </p>
+                <p>
+                  AdMosaic creates dedicated flyer campaigns for businesses — from design and
+                  targeting to preparing the campaign for local distribution.
+                </p>
+              </>
+            </Copy>
           </div>
 
           <ol className="mt-12 grid grid-cols-2 gap-px bg-ink-border sm:grid-cols-4">
@@ -313,7 +322,7 @@ function FlyerFeature() {
 
         <Reveal delay={80}>
           <img
-            src={flyerImg}
+            src={get("home_flyer_image", flyerImg)}
             alt="A single premium direct-mail postcard designed for one local business"
             loading="lazy"
             width={1408}
@@ -327,6 +336,7 @@ function FlyerFeature() {
 }
 
 function WebFeature() {
+  const { get } = useSiteContent();
   const highlights = [
     "Responsive Design",
     "Local SEO Foundations",
@@ -340,16 +350,18 @@ function WebFeature() {
       <div className="shell">
         <div className="grid gap-14 lg:grid-cols-[1fr_1fr]">
           <Reveal>
-            <Eyebrow>02 — Websites & SEO</Eyebrow>
+            <Eyebrow>{get("home_web_eyebrow", "02 — Websites & SEO")}</Eyebrow>
             <h2 className="display mt-8 text-[clamp(2.25rem,5.5vw,4.25rem)]">
-              Your website should work as hard as you do.
+              {get("home_web_headline", "Your website should work as hard as you do.")}
             </h2>
           </Reveal>
           <Reveal delay={80} className="max-w-lg self-end space-y-5 text-base leading-relaxed text-muted-foreground md:text-lg">
-            <p>
-              We build fast, mobile-first websites designed around credibility, usability and
-              conversion — with a clean structure search engines can read.
-            </p>
+            <Copy value={get("home_web_body", "")}>
+              <p>
+                We build fast, mobile-first websites designed around credibility, usability and
+                conversion — with a clean structure search engines can read.
+              </p>
+            </Copy>
             <div className="pt-2">
               <ButtonLink to="/web-design-seo">
                 Build My Website <Arrow />
@@ -360,7 +372,7 @@ function WebFeature() {
 
         <Reveal className="mt-16">
           <img
-            src={webImg}
+            src={get("home_web_image", webImg)}
             alt="Desktop and mobile mockups of a modern business website built by AdMosaic"
             loading="lazy"
             width={1600}
