@@ -37,7 +37,7 @@ export function Nav() {
     >
       <div className="shell flex h-[72px] items-center justify-between">
         <Link to="/" className="flex items-center" aria-label="AdMosaic Marketing — home">
-          <Logo className="h-10 sm:h-11" />
+          <Logo className="h-10 w-[163px] sm:h-11 sm:w-[179px]" />
         </Link>
 
         <nav aria-label="Primary" className="hidden items-center gap-9 md:flex">
