@@ -65,7 +65,7 @@ function ContactPage() {
     setBusy(false);
 
     if (insertError) {
-      setError("We couldn't send that. Please email hello@admosaicmarketing.com instead.");
+      setError("We couldn't send that. Please email admosaic1819@gmail.com instead.");
       return;
     }
 
@@ -170,10 +170,10 @@ function ContactPage() {
             <div>
               <h2 className="eyebrow text-muted-foreground">Email</h2>
               <a
-                href="mailto:hello@admosaicmarketing.com"
+                href="mailto:admosaic1819@gmail.com"
                 className="mt-3 block text-lg transition-colors duration-200 hover:text-accent"
               >
-                hello@admosaicmarketing.com
+                admosaic1819@gmail.com
               </a>
             </div>
             <div>

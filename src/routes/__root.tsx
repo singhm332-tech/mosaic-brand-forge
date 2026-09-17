@@ -111,7 +111,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
             addressRegion: "AB",
             addressCountry: "CA",
           },
-          email: "hello@admosaicmarketing.com",
+          email: "admosaic1819@gmail.com",
           sameAs: ["https://instagram.com/admosaicmarketing"],
         }),
       },

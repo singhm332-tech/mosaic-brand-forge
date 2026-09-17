@@ -23,7 +23,7 @@ export function Footer() {
         <div className="grid gap-14 md:grid-cols-[1.2fr_1fr_1fr_1fr]">
           <div>
             <Link to="/" aria-label="AdMosaic Marketing — home">
-              <Logo light className="h-12" />
+              <Logo className="h-12 w-[195px]" />
             </Link>
             <p className="eyebrow text-ink-muted">Edmonton, Alberta — Canada</p>
             <p className="mt-6 max-w-xs text-sm leading-relaxed text-ink-muted">
@@ -79,10 +79,10 @@ export function Footer() {
               </li>
               <li>
                 <a
-                  href="mailto:hello@admosaicmarketing.com"
+                  href="mailto:admosaic1819@gmail.com"
                   className="text-sm text-ink-foreground/80 transition-colors duration-200 hover:text-accent"
                 >
-                  hello@admosaicmarketing.com
+                  admosaic1819@gmail.com
                 </a>
               </li>
             </ul>
