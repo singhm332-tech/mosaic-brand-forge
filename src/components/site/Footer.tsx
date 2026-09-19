@@ -22,7 +22,11 @@ export function Footer() {
       <div className="shell pt-24 pb-12">
         <div className="grid gap-14 md:grid-cols-[1.2fr_1fr_1fr_1fr]">
           <div>
-            <Link to="/" aria-label="AdMosaic Marketing — home">
+            <Link
+              to="/"
+              aria-label="AdMosaic Marketing — home"
+              className="inline-flex bg-ivory px-3 py-2"
+            >
               <Logo className="h-12 w-[195px]" />
             </Link>
             <p className="eyebrow text-ink-muted">Edmonton, Alberta — Canada</p>
@@ -89,14 +93,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div
-          aria-hidden="true"
-          className="display mt-20 w-full text-[clamp(3.5rem,17vw,15rem)] leading-none tracking-tight text-ink-foreground/90 select-none"
-        >
-          ADMOSAIC
-        </div>
-
-        <div className="mt-10 flex flex-col gap-3 border-t border-ink-border pt-6 text-xs text-ink-muted sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-20 flex flex-col gap-3 border-t border-ink-border pt-6 text-xs text-ink-muted sm:flex-row sm:items-center sm:justify-between">
           <p>Copyright © {new Date().getFullYear()} AdMosaic Marketing</p>
           <p>Edmonton, Alberta — Canada</p>
         </div>
