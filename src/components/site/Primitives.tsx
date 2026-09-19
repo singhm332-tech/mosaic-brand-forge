@@ -33,29 +33,65 @@ export function Section({
   );
 }
 
+type ButtonVariant = "solid" | "outline" | "onDark" | "ghost";
+
 type ButtonLinkProps = ComponentProps<typeof Link> & {
-  variant?: "solid" | "outline" | "onDark" | "ghost";
+  variant?: ButtonVariant;
 };
 
 const buttonBase =
   "group inline-flex items-center gap-2.5 px-6 py-3 text-sm font-medium tracking-tight transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent";
 
+function buttonClasses(variant: ButtonVariant, className?: string) {
+  return cn(
+    buttonBase,
+    variant === "solid" && "bg-ink text-ink-foreground hover:bg-accent hover:text-accent-foreground",
+    variant === "outline" && "border border-foreground/25 text-foreground hover:border-foreground/70",
+    variant === "onDark" && "bg-ink-foreground text-ink hover:bg-accent hover:text-accent-foreground",
+    variant === "ghost" && "px-0 text-foreground hover:text-accent",
+    className,
+  );
+}
+
 export function ButtonLink({ variant = "solid", className, children, ...props }: ButtonLinkProps) {
   return (
-    <Link
-      {...props}
-      className={cn(
-        buttonBase,
-        variant === "solid" && "bg-ink text-ink-foreground hover:bg-accent hover:text-accent-foreground",
-        variant === "outline" && "border border-foreground/25 text-foreground hover:border-foreground/70",
-        variant === "onDark" &&
-          "bg-ink-foreground text-ink hover:bg-accent hover:text-accent-foreground",
-        variant === "ghost" && "px-0 text-foreground hover:text-accent",
-        className,
-      )}
-    >
+    <Link {...props} className={buttonClasses(variant, className)}>
       {children}
     </Link>
+  );
+}
+
+/** Same styling as ButtonLink, but smoothly scrolls to a section on the current page. */
+export function ScrollButton({
+  targetId,
+  variant = "outline",
+  className,
+  children,
+}: {
+  targetId: string;
+  variant?: ButtonVariant;
+  className?: string;
+  children: ReactNode;
+}) {
+  return (
+    <a
+      href={`#${targetId}`}
+      className={buttonClasses(variant, className)}
+      onClick={(event) => {
+        const target = document.getElementById(targetId);
+        if (!target) return;
+        event.preventDefault();
+        target.scrollIntoView({
+          behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+            ? "auto"
+            : "smooth",
+          block: "start",
+        });
+        history.replaceState(null, "", `#${targetId}`);
+      }}
+    >
+      {children}
+    </a>
   );
 }
 

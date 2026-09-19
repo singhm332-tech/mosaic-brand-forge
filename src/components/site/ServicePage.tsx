@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { Reveal } from "./Reveal";
-import { Arrow, ButtonLink, Eyebrow, Section } from "./Primitives";
+import { Arrow, ButtonLink, Eyebrow, ScrollButton, Section } from "./Primitives";
 import { services, type ServiceRoute } from "@/data/site";
 
 export function ServicePage({
@@ -16,6 +16,7 @@ export function ServicePage({
   showcase,
   hideImage = false,
   cta,
+  workCta = "See our work",
   current,
 }: {
   index: string;
@@ -30,6 +31,7 @@ export function ServicePage({
   showcase?: ReactNode;
   hideImage?: boolean;
   cta: string;
+  workCta?: string;
   current: ServiceRoute;
 }) {
   const others = services.filter((s) => s.to !== current);
@@ -47,9 +49,15 @@ export function ServicePage({
             <ButtonLink to="/contact">
               {cta} <Arrow />
             </ButtonLink>
-            <ButtonLink to="/work" variant="outline">
-              See our work
-            </ButtonLink>
+            {showcase ? (
+              <ScrollButton targetId="our-work" variant="outline">
+                {workCta}
+              </ScrollButton>
+            ) : (
+              <ButtonLink to="/work" variant="outline">
+                {workCta}
+              </ButtonLink>
+            )}
           </div>
         </Reveal>
       </section>
