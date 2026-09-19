@@ -49,9 +49,15 @@ export function ServicePage({
             <ButtonLink to="/contact">
               {cta} <Arrow />
             </ButtonLink>
-            <ButtonLink to="/work" variant="outline">
-              See our work
-            </ButtonLink>
+            {showcase ? (
+              <ScrollButton targetId="our-work" variant="outline">
+                {workCta}
+              </ScrollButton>
+            ) : (
+              <ButtonLink to="/work" variant="outline">
+                {workCta}
+              </ButtonLink>
+            )}
           </div>
         </Reveal>
       </section>
