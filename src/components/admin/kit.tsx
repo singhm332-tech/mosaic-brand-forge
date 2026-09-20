@@ -256,4 +256,176 @@ export function ImageField({
   );
 }
 
+/**
+ * Multiple-image field: drag files in, upload several at once, pick from the
+ * library, reorder or remove. Used for project photo galleries.
+ */
+export function GalleryField({
+  label,
+  value,
+  onChange,
+  hint,
+}: {
+  label: string;
+  value: string[];
+  onChange: (urls: string[]) => void;
+  hint?: string;
+}) {
+  const [open, setOpen] = useState(false);
+  const [dragging, setDragging] = useState(false);
+  const queryClient = useQueryClient();
+
+  const { data: assets = [] } = useQuery({
+    queryKey: ["media-assets"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("media_assets")
+        .select("*")
+        .order("created_at", { ascending: false });
+      if (error) throw error;
+      return data;
+    },
+    enabled: open,
+  });
+
+  const upload = useMutation({
+    mutationFn: async (files: File[]) => {
+      const urls: string[] = [];
+      for (const file of files) {
+        const asset = await uploadMedia(file);
+        urls.push(asset.public_url);
+      }
+      return urls;
+    },
+    onSuccess: (urls) => {
+      queryClient.invalidateQueries({ queryKey: ["media-assets"] });
+      onChange([...value, ...urls]);
+      toast.success(urls.length === 1 ? "Image added." : `${urls.length} images added.`);
+    },
+    onError: (error) => toast.error(error instanceof Error ? error.message : "Upload failed."),
+  });
+
+  const addFiles = (files: FileList | null) => {
+    const list = Array.from(files ?? []).filter((f) => f.type.startsWith("image/"));
+    if (list.length) upload.mutate(list);
+  };
+
+  const move = (index: number, direction: -1 | 1) => {
+    const next = [...value];
+    const target = index + direction;
+    if (target < 0 || target >= next.length) return;
+    [next[index], next[target]] = [next[target]!, next[index]!];
+    onChange(next);
+  };
+
+  return (
+    <div className="space-y-3">
+      <Label>{label}</Label>
+
+      {value.length > 0 && (
+        <div className="grid grid-cols-3 gap-3 sm:grid-cols-4">
+          {value.map((url, index) => (
+            <div
+              key={`${url}-${index}`}
+              className="group relative aspect-square overflow-hidden rounded border border-border bg-muted"
+            >
+              <img src={url} alt="" className="h-full w-full object-cover" />
+              <div className="absolute inset-x-0 bottom-0 flex justify-between bg-background/85 opacity-0 transition-opacity group-hover:opacity-100">
+                <button
+                  type="button"
+                  aria-label="Move earlier"
+                  className="px-2 py-1 text-xs disabled:opacity-30"
+                  disabled={index === 0}
+                  onClick={() => move(index, -1)}
+                >
+                  ←
+                </button>
+                <button
+                  type="button"
+                  aria-label="Remove image"
+                  className="px-2 py-1 text-xs text-destructive"
+                  onClick={() => onChange(value.filter((_, i) => i !== index))}
+                >
+                  Remove
+                </button>
+                <button
+                  type="button"
+                  aria-label="Move later"
+                  className="px-2 py-1 text-xs disabled:opacity-30"
+                  disabled={index === value.length - 1}
+                  onClick={() => move(index, 1)}
+                >
+                  →
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      <label
+        onDragOver={(e) => {
+          e.preventDefault();
+          setDragging(true);
+        }}
+        onDragLeave={() => setDragging(false)}
+        onDrop={(e) => {
+          e.preventDefault();
+          setDragging(false);
+          addFiles(e.dataTransfer.files);
+        }}
+        className={cn(
+          "flex cursor-pointer flex-col items-center justify-center rounded-md border border-dashed px-6 py-8 text-center text-sm text-muted-foreground transition-colors",
+          dragging ? "border-foreground bg-muted" : "border-border hover:border-foreground",
+        )}
+      >
+        <input
+          type="file"
+          accept="image/*"
+          multiple
+          className="sr-only"
+          disabled={upload.isPending}
+          onChange={(e) => {
+            addFiles(e.target.files);
+            e.target.value = "";
+          }}
+        />
+        {upload.isPending ? "Uploading…" : "Drag images here, or click to choose from your device"}
+      </label>
+
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogTrigger asChild>
+          <Button type="button" variant="outline" size="sm">
+            Add from image library
+          </Button>
+        </DialogTrigger>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>Image library</DialogTitle>
+            <DialogDescription>Click an image to add it to this gallery.</DialogDescription>
+          </DialogHeader>
+          <div className="grid max-h-80 grid-cols-3 gap-3 overflow-y-auto sm:grid-cols-4">
+            {assets.map((asset) => (
+              <button
+                key={asset.id}
+                type="button"
+                onClick={() => onChange([...value, asset.public_url])}
+                className="aspect-square overflow-hidden rounded border border-border hover:border-foreground"
+              >
+                <img
+                  src={asset.public_url}
+                  alt={asset.alt_text ?? ""}
+                  className="h-full w-full object-cover"
+                />
+              </button>
+            ))}
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {hint && <p className="text-xs text-muted-foreground">{hint}</p>}
+    </div>
+  );
+}
+
 export { Button, Input, Textarea, Label };
