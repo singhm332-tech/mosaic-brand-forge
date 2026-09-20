@@ -28,6 +28,11 @@ export const Route = createFileRoute("/contact")({
 const field =
   "w-full border-b border-border bg-transparent py-3 text-base outline-none transition-colors duration-200 placeholder:text-muted-foreground/70 focus:border-foreground";
 
+// Formspree endpoint for email notifications (https://formspree.io).
+// Create a form with recipient admosaic1819@gmail.com and paste the form ID here.
+const FORMSPREE_FORM_ID = "YOUR_FORM_ID";
+const formspreeUrl = `https://formspree.io/f/${FORMSPREE_FORM_ID}`;
+
 const leadSchema = z.object({
   name: z.string().trim().min(1).max(120),
   business_name: z.string().trim().max(140),
@@ -61,10 +66,31 @@ function ContactPage() {
 
     setBusy(true);
     setError(null);
+
+    let emailed = false;
+    if (FORMSPREE_FORM_ID !== "YOUR_FORM_ID") {
+      try {
+        const res = await fetch(formspreeUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify({
+            name: parsed.data.name,
+            business: parsed.data.business_name,
+            email: parsed.data.email,
+            services: parsed.data.services.join(", "),
+            message: parsed.data.message,
+          }),
+        });
+        emailed = res.ok;
+      } catch {
+        emailed = false;
+      }
+    }
+
     const { error: insertError } = await supabase.from("leads").insert(parsed.data);
     setBusy(false);
 
-    if (insertError) {
+    if (insertError && !emailed) {
       setError("We couldn't send that. Please email admosaic1819@gmail.com instead.");
       return;
     }
