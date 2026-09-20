@@ -66,10 +66,31 @@ function ContactPage() {
 
     setBusy(true);
     setError(null);
+
+    let emailed = false;
+    if (FORMSPREE_FORM_ID !== "YOUR_FORM_ID") {
+      try {
+        const res = await fetch(formspreeUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify({
+            name: parsed.data.name,
+            business: parsed.data.business_name,
+            email: parsed.data.email,
+            services: parsed.data.services.join(", "),
+            message: parsed.data.message,
+          }),
+        });
+        emailed = res.ok;
+      } catch {
+        emailed = false;
+      }
+    }
+
     const { error: insertError } = await supabase.from("leads").insert(parsed.data);
     setBusy(false);
 
-    if (insertError) {
+    if (insertError && !emailed) {
       setError("We couldn't send that. Please email admosaic1819@gmail.com instead.");
       return;
     }
