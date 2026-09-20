@@ -1,5 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ServicePage } from "@/components/site/ServicePage";
+import { ServiceWork, filterProjectsByService } from "@/components/site/ServiceWork";
+import { getPublicProjects } from "@/lib/public-content.functions";
+import { projects as fallbackProjects } from "@/data/site";
 import designImg from "@/assets/design-collateral.jpg";
 
 const title = "Graphic Design & Branding — AdMosaic, Edmonton";

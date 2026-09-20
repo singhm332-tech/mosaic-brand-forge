@@ -1,5 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ServicePage } from "@/components/site/ServicePage";
+import { ServiceWork, filterProjectsByService } from "@/components/site/ServiceWork";
+import { getPublicProjects } from "@/lib/public-content.functions";
+import { projects as fallbackProjects } from "@/data/site";
 import nfcImg from "@/assets/nfc-card.jpg";
 
 const title = "NFC Review Cards & Reputation — AdMosaic, Edmonton";
