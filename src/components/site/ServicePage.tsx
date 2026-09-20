@@ -93,7 +93,11 @@ export function ServicePage({
         </div>
       </Section>
 
-      {showcase}
+      {showcase ? (
+        <div id="our-work" className="scroll-mt-24">
+          {showcase}
+        </div>
+      ) : null}
 
       {process ? (
         <Section tone="dark" className="py-24">

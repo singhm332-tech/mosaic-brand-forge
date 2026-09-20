@@ -1,5 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ServicePage } from "@/components/site/ServicePage";
+import { ServiceWork, filterProjectsByService } from "@/components/site/ServiceWork";
+import { getPublicProjects } from "@/lib/public-content.functions";
+import { projects as fallbackProjects } from "@/data/site";
 import designImg from "@/assets/design-collateral.jpg";
 
 const title = "Graphic Design & Branding — AdMosaic, Edmonton";
@@ -18,12 +21,27 @@ export const Route = createFileRoute("/graphic-design")({
     ],
     links: [{ rel: "canonical", href: "/graphic-design" }],
   }),
+  loader: async () => ({ dbProjects: await getPublicProjects() }),
   component: Page,
 });
 
 function Page() {
+  const { dbProjects } = Route.useLoaderData();
+  const all = dbProjects.length > 0 ? dbProjects : fallbackProjects;
+  const work = filterProjectsByService(all, ["branding", "design", "print"]);
+
   return (
     <ServicePage
+      workCta="See Our Branding Work"
+      showcase={
+        work.length > 0 ? (
+          <ServiceWork
+            heading="Design work we’ve made."
+            intro="Examples of branding, print and collateral design we’ve created for businesses."
+            projects={work}
+          />
+        ) : undefined
+      }
       current="/graphic-design"
       index="05"
       eyebrow="Graphic Design & Branding"

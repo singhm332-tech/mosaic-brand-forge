@@ -70,6 +70,7 @@ function Page() {
       alt="Grid of nine on-brand social media posts designed for a local business"
       hideImage
       cta="Start a Project"
+      workCta="See Our Social Media Work"
       capabilities={[
         "Social media strategy",
         "Content creation",
