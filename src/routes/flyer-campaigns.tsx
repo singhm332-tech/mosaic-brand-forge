@@ -21,12 +21,27 @@ export const Route = createFileRoute("/flyer-campaigns")({
     ],
     links: [{ rel: "canonical", href: "/flyer-campaigns" }],
   }),
+  loader: async () => ({ dbProjects: await getPublicProjects() }),
   component: Page,
 });
 
 function Page() {
+  const { dbProjects } = Route.useLoaderData();
+  const all = dbProjects.length > 0 ? dbProjects : fallbackProjects;
+  const work = filterProjectsByService(all, ["direct mail", "flyer", "print", "local marketing"]);
+
   return (
     <ServicePage
+      workCta="See Our Flyer Campaigns"
+      showcase={
+        work.length > 0 ? (
+          <ServiceWork
+            heading="Campaigns we’ve printed."
+            intro="Examples of direct-mail and print campaigns we’ve designed for single businesses."
+            projects={work}
+          />
+        ) : undefined
+      }
       current="/flyer-campaigns"
       index="03"
       eyebrow="Solo Flyer Campaigns"

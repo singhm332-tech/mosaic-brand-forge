@@ -21,12 +21,27 @@ export const Route = createFileRoute("/nfc-review-cards")({
     ],
     links: [{ rel: "canonical", href: "/nfc-review-cards" }],
   }),
+  loader: async () => ({ dbProjects: await getPublicProjects() }),
   component: Page,
 });
 
 function Page() {
+  const { dbProjects } = Route.useLoaderData();
+  const all = dbProjects.length > 0 ? dbProjects : fallbackProjects;
+  const work = filterProjectsByService(all, ["nfc", "reputation", "review"]);
+
   return (
     <ServicePage
+      workCta="See Our Review Card Work"
+      showcase={
+        work.length > 0 ? (
+          <ServiceWork
+            heading="Review programmes we’ve run."
+            intro="Examples of NFC card and reputation work we’ve set up for local businesses."
+            projects={work}
+          />
+        ) : undefined
+      }
       current="/nfc-review-cards"
       index="04"
       eyebrow="NFC & Reputation"
