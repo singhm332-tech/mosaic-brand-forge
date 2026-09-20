@@ -17,6 +17,7 @@ export type PublicProject = {
   description: string;
   image: string;
   alt: string;
+  gallery: string[];
   size: "wide" | "half";
   featured: boolean;
 };
@@ -36,7 +37,7 @@ export const getPublicProjects = createServerFn({ method: "GET" }).handler(
     const { data, error } = await publicClient()
       .from("projects")
       .select(
-        "slug, title, client_name, short_description, services, cover_image_url, cover_image_alt, featured, display_order",
+        "slug, title, client_name, short_description, services, cover_image_url, cover_image_alt, gallery_urls, featured, display_order",
       )
       .eq("status", "published")
       .order("display_order", { ascending: true })
@@ -53,6 +54,7 @@ export const getPublicProjects = createServerFn({ method: "GET" }).handler(
         description: row.short_description ?? "",
         image: row.cover_image_url!,
         alt: row.cover_image_alt ?? row.title,
+        gallery: row.gallery_urls ?? [],
         size: index === 0 || row.featured ? ("wide" as const) : ("half" as const),
         featured: row.featured,
       }));
@@ -102,5 +104,32 @@ export const getSiteContent = createServerFn({ method: "GET" }).handler(
     const { data, error } = await publicClient().from("site_content").select("key, value");
     if (error || !data) return {};
     return Object.fromEntries(data.map((row) => [row.key, row.value]));
+  },
+);
+
+export type PublicService = {
+  slug: string;
+  name: string;
+  number: string;
+  summary: string;
+};
+
+/** Active services in admin order. Empty array means "use built-in content". */
+export const getPublicServices = createServerFn({ method: "GET" }).handler(
+  async (): Promise<PublicService[]> => {
+    const { data, error } = await publicClient()
+      .from("services")
+      .select("slug, name, number_label, short_description, display_order")
+      .eq("active", true)
+      .order("display_order", { ascending: true });
+
+    if (error || !data) return [];
+
+    return data.map((row) => ({
+      slug: row.slug,
+      name: row.name,
+      number: row.number_label,
+      summary: row.short_description ?? "",
+    }));
   },
 );

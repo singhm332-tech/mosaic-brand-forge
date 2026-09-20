@@ -243,6 +243,7 @@ export function ProjectCard({
     description: string;
     image: string;
     alt: string;
+    gallery?: string[];
     size: "wide" | "half";
   };
   priority?: boolean;
@@ -266,6 +267,19 @@ export function ProjectCard({
       <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground">
         {project.description}
       </p>
+      {project.gallery && project.gallery.length > 0 && (
+        <div className="mt-6 grid grid-cols-3 gap-3">
+          {project.gallery.slice(0, 6).map((src) => (
+            <img
+              key={src}
+              src={src}
+              alt=""
+              loading="lazy"
+              className="aspect-4/3 w-full object-cover"
+            />
+          ))}
+        </div>
+      )}
     </article>
   );
 }

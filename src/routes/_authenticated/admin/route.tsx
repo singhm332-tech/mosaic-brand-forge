@@ -34,18 +34,38 @@ type AdminPath =
   | "/admin/activity"
   | "/admin/settings";
 
-const nav: { to: AdminPath; label: string; icon: typeof LayoutDashboard; exact?: boolean }[] = [
-  { to: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
-  { to: "/admin/projects", label: "Projects", icon: FolderOpen },
-  { to: "/admin/reels", label: "Social Media / Reels", icon: Clapperboard },
-  { to: "/admin/media", label: "Images & Media", icon: ImageIcon },
-  { to: "/admin/testimonials", label: "Testimonials", icon: Quote },
-  { to: "/admin/services", label: "Services", icon: Layers },
-  { to: "/admin/content", label: "Website Content", icon: FileText },
-  { to: "/admin/leads", label: "Contact Leads", icon: Inbox },
-  { to: "/admin/seo", label: "SEO", icon: Search },
-  { to: "/admin/activity", label: "Activity Log", icon: History },
-  { to: "/admin/settings", label: "Settings", icon: Settings },
+type NavItem = { to: AdminPath; label: string; icon: typeof LayoutDashboard; exact?: boolean };
+
+const navGroups: { title: string; items: NavItem[] }[] = [
+  {
+    title: "Overview",
+    items: [{ to: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true }],
+  },
+  {
+    title: "Your work",
+    items: [
+      { to: "/admin/projects", label: "Projects", icon: FolderOpen },
+      { to: "/admin/reels", label: "Social Media / Reels", icon: Clapperboard },
+      { to: "/admin/media", label: "Images & Media", icon: ImageIcon },
+      { to: "/admin/testimonials", label: "Testimonials", icon: Quote },
+    ],
+  },
+  {
+    title: "Your pages",
+    items: [
+      { to: "/admin/content", label: "Website Content", icon: FileText },
+      { to: "/admin/services", label: "Services", icon: Layers },
+      { to: "/admin/seo", label: "SEO", icon: Search },
+    ],
+  },
+  {
+    title: "Business",
+    items: [
+      { to: "/admin/leads", label: "Contact Leads", icon: Inbox },
+      { to: "/admin/activity", label: "Activity Log", icon: History },
+      { to: "/admin/settings", label: "Settings", icon: Settings },
+    ],
+  },
 ];
 
 function AdminLayout() {
@@ -110,25 +130,32 @@ function AdminLayout() {
           </p>
           <p className="mt-1 text-sm font-medium">Website manager</p>
         </div>
-        <nav className="flex gap-1 overflow-x-auto px-3 pb-4 md:flex-col md:overflow-visible">
-          {nav.map((item) => {
-            const active = item.exact ? pathname === item.to : pathname.startsWith(item.to);
-            return (
-              <Link
-                key={item.to}
-                to={item.to}
-                className={cn(
-                  "flex shrink-0 items-center gap-2.5 rounded-md px-3 py-2 text-sm whitespace-nowrap transition-colors",
-                  active
-                    ? "bg-muted font-medium text-foreground"
-                    : "text-muted-foreground hover:bg-muted/60 hover:text-foreground",
-                )}
-              >
-                <item.icon className="h-4 w-4" aria-hidden="true" />
-                {item.label}
-              </Link>
-            );
-          })}
+        <nav className="flex gap-1 overflow-x-auto px-3 pb-4 md:flex-col md:gap-4 md:overflow-visible">
+          {navGroups.map((group) => (
+            <div key={group.title} className="flex shrink-0 gap-1 md:flex-col">
+              <p className="hidden px-3 pb-1 text-[11px] font-medium tracking-[0.14em] text-muted-foreground uppercase md:block">
+                {group.title}
+              </p>
+              {group.items.map((item) => {
+                const active = item.exact ? pathname === item.to : pathname.startsWith(item.to);
+                return (
+                  <Link
+                    key={item.to}
+                    to={item.to}
+                    className={cn(
+                      "flex shrink-0 items-center gap-2.5 rounded-md px-3 py-2 text-sm whitespace-nowrap transition-colors",
+                      active
+                        ? "bg-muted font-medium text-foreground"
+                        : "text-muted-foreground hover:bg-muted/60 hover:text-foreground",
+                    )}
+                  >
+                    <item.icon className="h-4 w-4" aria-hidden="true" />
+                    {item.label}
+                  </Link>
+                );
+              })}
+            </div>
+          ))}
         </nav>
         <div className="border-t border-border px-6 py-4 md:mt-auto">
           <p className="truncate text-xs text-muted-foreground">{session?.email}</p>
