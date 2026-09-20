@@ -67,7 +67,7 @@ function ContactPage() {
     setError(null);
 
     let emailed = false;
-    if (FORMSPREE_FORM_ID !== "YOUR_FORM_ID") {
+    if (formspreeUrl) {
       try {
         const res = await fetch(formspreeUrl, {
           method: "POST",
