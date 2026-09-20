@@ -6,6 +6,7 @@ import {
   ConfirmDelete,
   EmptyState,
   Field,
+  GalleryField,
   ImageField,
   Input,
   StatusPill,
@@ -38,6 +39,7 @@ type ProjectRow = {
   services: string[];
   cover_image_url: string | null;
   cover_image_alt: string | null;
+  gallery_urls: string[];
   website_url: string | null;
   featured: boolean;
   display_order: number;
@@ -56,6 +58,7 @@ const blank = {
   services: [] as string[],
   cover_image_url: "",
   cover_image_alt: "",
+  gallery_urls: [] as string[],
   website_url: "",
   featured: false,
   display_order: 0,
@@ -121,6 +124,7 @@ function ProjectsPage() {
                   services: project.services ?? [],
                   cover_image_url: project.cover_image_url ?? "",
                   cover_image_alt: project.cover_image_alt ?? "",
+                  gallery_urls: project.gallery_urls ?? [],
                   website_url: project.website_url ?? "",
                   featured: project.featured,
                   display_order: project.display_order,
@@ -217,6 +221,12 @@ function ProjectsPage() {
                   onChange={(e) => setEditing({ ...editing, cover_image_alt: e.target.value })}
                 />
               </Field>
+              <GalleryField
+                label="More project images"
+                value={editing.gallery_urls}
+                onChange={(urls) => setEditing({ ...editing, gallery_urls: urls })}
+                hint="Shown under the cover image on the website. Drag several photos in at once."
+              />
               <Field label="Website URL">
                 <Input
                   value={editing.website_url}
