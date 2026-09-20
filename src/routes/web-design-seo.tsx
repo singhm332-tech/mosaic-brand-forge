@@ -21,12 +21,27 @@ export const Route = createFileRoute("/web-design-seo")({
     ],
     links: [{ rel: "canonical", href: "/web-design-seo" }],
   }),
+  loader: async () => ({ dbProjects: await getPublicProjects() }),
   component: Page,
 });
 
 function Page() {
+  const { dbProjects } = Route.useLoaderData();
+  const all = dbProjects.length > 0 ? dbProjects : fallbackProjects;
+  const work = filterProjectsByService(all, ["website", "web", "seo"]);
+
   return (
     <ServicePage
+      workCta="See Our Websites"
+      showcase={
+        work.length > 0 ? (
+          <ServiceWork
+            heading="Websites we’ve built."
+            intro="Examples of website and search work we’ve delivered for local businesses."
+            projects={work}
+          />
+        ) : undefined
+      }
       current="/web-design-seo"
       index="02"
       eyebrow="Websites & SEO"
