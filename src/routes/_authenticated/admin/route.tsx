@@ -34,18 +34,38 @@ type AdminPath =
   | "/admin/activity"
   | "/admin/settings";
 
-const nav: { to: AdminPath; label: string; icon: typeof LayoutDashboard; exact?: boolean }[] = [
-  { to: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
-  { to: "/admin/projects", label: "Projects", icon: FolderOpen },
-  { to: "/admin/reels", label: "Social Media / Reels", icon: Clapperboard },
-  { to: "/admin/media", label: "Images & Media", icon: ImageIcon },
-  { to: "/admin/testimonials", label: "Testimonials", icon: Quote },
-  { to: "/admin/services", label: "Services", icon: Layers },
-  { to: "/admin/content", label: "Website Content", icon: FileText },
-  { to: "/admin/leads", label: "Contact Leads", icon: Inbox },
-  { to: "/admin/seo", label: "SEO", icon: Search },
-  { to: "/admin/activity", label: "Activity Log", icon: History },
-  { to: "/admin/settings", label: "Settings", icon: Settings },
+type NavItem = { to: AdminPath; label: string; icon: typeof LayoutDashboard; exact?: boolean };
+
+const navGroups: { title: string; items: NavItem[] }[] = [
+  {
+    title: "Overview",
+    items: [{ to: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true }],
+  },
+  {
+    title: "Your work",
+    items: [
+      { to: "/admin/projects", label: "Projects", icon: FolderOpen },
+      { to: "/admin/reels", label: "Social Media / Reels", icon: Clapperboard },
+      { to: "/admin/media", label: "Images & Media", icon: ImageIcon },
+      { to: "/admin/testimonials", label: "Testimonials", icon: Quote },
+    ],
+  },
+  {
+    title: "Your pages",
+    items: [
+      { to: "/admin/content", label: "Website Content", icon: FileText },
+      { to: "/admin/services", label: "Services", icon: Layers },
+      { to: "/admin/seo", label: "SEO", icon: Search },
+    ],
+  },
+  {
+    title: "Business",
+    items: [
+      { to: "/admin/leads", label: "Contact Leads", icon: Inbox },
+      { to: "/admin/activity", label: "Activity Log", icon: History },
+      { to: "/admin/settings", label: "Settings", icon: Settings },
+    ],
+  },
 ];
 
 function AdminLayout() {
