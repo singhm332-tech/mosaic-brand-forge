@@ -188,13 +188,34 @@ export function ImageField({
     <div className="space-y-2">
       <Label>{label}</Label>
       <div className="flex items-start gap-4">
-        <div className="h-24 w-24 shrink-0 overflow-hidden rounded border border-border bg-muted">
+        <label
+          onDragOver={(e) => e.preventDefault()}
+          onDrop={(e) => {
+            e.preventDefault();
+            const file = Array.from(e.dataTransfer.files).find((f) => f.type.startsWith("image/"));
+            if (file) upload.mutate(file);
+          }}
+          className="relative h-24 w-24 shrink-0 cursor-pointer overflow-hidden rounded border border-dashed border-border bg-muted hover:border-foreground"
+        >
+          <input
+            type="file"
+            accept="image/*"
+            className="sr-only"
+            disabled={upload.isPending}
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              if (file) upload.mutate(file);
+              e.target.value = "";
+            }}
+          />
           {value ? (
             <img src={value} alt="" className="h-full w-full object-cover" />
           ) : (
-            <div className="grid h-full place-items-center text-xs text-muted-foreground">None</div>
+            <div className="grid h-full place-items-center px-2 text-center text-[11px] leading-tight text-muted-foreground">
+              {upload.isPending ? "Uploading…" : "Drop or click to add"}
+            </div>
           )}
-        </div>
+        </label>
         <div className="flex-1 space-y-2">
           <Input
             value={value}
