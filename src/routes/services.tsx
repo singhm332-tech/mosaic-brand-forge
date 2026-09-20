@@ -3,6 +3,7 @@ import { Reveal } from "@/components/site/Reveal";
 import { Arrow, Eyebrow, Section } from "@/components/site/Primitives";
 import { FinalCta } from "@/components/site/ServicePage";
 import { services } from "@/data/site";
+import { getPublicServices } from "@/lib/public-content.functions";
 
 const title = "Services — AdMosaic Marketing";
 const description =
@@ -20,10 +21,20 @@ export const Route = createFileRoute("/services")({
     ],
     links: [{ rel: "canonical", href: "/services" }],
   }),
+  loader: async () => ({ dbServices: await getPublicServices() }),
   component: ServicesPage,
 });
 
 function ServicesPage() {
+  const { dbServices } = Route.useLoaderData();
+  // Admin edits override the built-in wording; the page keeps its fixed routes.
+  const items = services.map((s) => {
+    const row = dbServices.find((d) => `/${d.slug}` === s.to);
+    return row
+      ? { ...s, name: row.name || s.name, number: row.number || s.number, summary: row.summary || s.summary }
+      : s;
+  });
+
   return (
     <>
       <section className="shell pt-20 pb-16 md:pt-28 md:pb-20">
@@ -39,7 +50,7 @@ function ServicesPage() {
       <Section className="pt-0">
         <div className="shell">
           <ul>
-            {services.map((s, i) => (
+            {items.map((s, i) => (
               <li key={s.to}>
                 <Reveal delay={i * 60}>
                   <Link
