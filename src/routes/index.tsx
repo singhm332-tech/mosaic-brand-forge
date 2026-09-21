@@ -408,12 +408,14 @@ function WebFeature() {
 }
 
 function NfcFeature() {
+  const { get } = useSiteContent();
+
   return (
     <Section tone="dark">
       <div className="shell grid items-center gap-16 lg:grid-cols-[0.95fr_1.05fr]">
         <Reveal delay={60} className="order-2 lg:order-1">
           <img
-            src={nfcImg}
+            src={get("home_nfc_image", nfcImg)}
             alt="Matte black AdMosaic NFC review card resting beside a smartphone"
             loading="lazy"
             width={1408}
@@ -423,19 +425,23 @@ function NfcFeature() {
         </Reveal>
 
         <Reveal className="order-1 lg:order-2">
-          <Eyebrow className="text-ink-muted">04 — NFC & Reputation</Eyebrow>
+          <Eyebrow className="text-ink-muted">{get("home_nfc_eyebrow", "04 — NFC & Reputation")}</Eyebrow>
           <h2 className="display mt-8 text-[clamp(2.25rem,5.5vw,4.25rem)]">
-            Turn great experiences into great reviews.
+            {get("home_nfc_headline", "Turn great experiences into great reviews.")}
           </h2>
           <div className="mt-8 max-w-lg space-y-5 text-base leading-relaxed text-ink-muted md:text-lg">
-            <p>
-              Our custom NFC cards let a customer reach a business's Google profile with a tap —
-              at the counter, on the table, or on the way out.
-            </p>
-            <p>
-              Steady review activity and a well-maintained Google Business Profile can support how
-              a business shows up in local search.
-            </p>
+            <Copy value={get("home_nfc_body", "")}>
+              <>
+                <p>
+                  Our custom NFC cards let a customer reach a business's Google profile with a tap —
+                  at the counter, on the table, or on the way out.
+                </p>
+                <p>
+                  Steady review activity and a well-maintained Google Business Profile can support how
+                  a business shows up in local search.
+                </p>
+              </>
+            </Copy>
           </div>
 
           <ol className="mt-12 flex flex-wrap items-center gap-x-4 gap-y-3">
@@ -459,20 +465,25 @@ function NfcFeature() {
 }
 
 function SocialFeature() {
+  const { get } = useSiteContent();
   const items = ["Strategy", "Content Creation", "Reels", "Management", "Campaigns", "Brand Consistency"];
 
   return (
     <Section tone="sand">
       <div className="shell grid items-center gap-16 lg:grid-cols-2">
         <Reveal>
-          <Eyebrow>01 — Social Media</Eyebrow>
+          <Eyebrow>{get("home_social_eyebrow", "01 — Social Media")}</Eyebrow>
           <h2 className="display mt-8 text-[clamp(2.25rem,5.5vw,4.25rem)]">
-            Look like a brand worth following.
+            {get("home_social_headline", "Look like a brand worth following.")}
           </h2>
-          <p className="mt-8 max-w-lg text-base leading-relaxed text-muted-foreground md:text-lg">
-            We help businesses build a consistent, professional social presence — a plan, a look
-            and a posting rhythm instead of whatever fits in the day.
-          </p>
+          <div className="mt-8 max-w-lg space-y-5 text-base leading-relaxed text-muted-foreground md:text-lg">
+            <Copy value={get("home_social_body", "")}>
+              <p>
+                We help businesses build a consistent, professional social presence — a plan, a look
+                and a posting rhythm instead of whatever fits in the day.
+              </p>
+            </Copy>
+          </div>
 
           <ul className="mt-12 grid grid-cols-2 gap-x-8">
             {items.map((i) => (
@@ -491,7 +502,7 @@ function SocialFeature() {
 
         <Reveal delay={80}>
           <img
-            src={socialImg}
+            src={get("home_social_image", socialImg)}
             alt="Grid of nine on-brand social media posts designed for a local business"
             loading="lazy"
             width={1408}
@@ -505,14 +516,16 @@ function SocialFeature() {
 }
 
 function DesignFeature() {
+  const { get } = useSiteContent();
+
   return (
     <Section>
       <div className="shell">
         <div className="grid gap-10 md:grid-cols-[1fr_auto] md:items-end">
           <Reveal>
-            <Eyebrow>05 — Graphic Design</Eyebrow>
+            <Eyebrow>{get("home_design_eyebrow", "05 — Graphic Design")}</Eyebrow>
             <h2 className="display mt-8 text-[clamp(2.25rem,5.5vw,4.25rem)]">
-              Good design earns attention.
+              {get("home_design_headline", "Good design earns attention.")}
             </h2>
           </Reveal>
           <Reveal delay={60}>
@@ -524,7 +537,7 @@ function DesignFeature() {
 
         <Reveal className="mt-14">
           <img
-            src={designImg}
+            src={get("home_design_image", designImg)}
             alt="Printed brand collateral: poster, folded flyer, business cards and stationery"
             loading="lazy"
             width={1600}
@@ -548,6 +561,7 @@ function DesignFeature() {
 }
 
 function WhyAdMosaic() {
+  const { get } = useSiteContent();
   const journey = ["Discover", "Trust", "Engage", "Convert"];
 
   return (
@@ -556,14 +570,18 @@ function WhyAdMosaic() {
         <Reveal>
           <Eyebrow>Why AdMosaic</Eyebrow>
           <h2 className="display mt-8 text-[clamp(2.25rem,5.5vw,4.25rem)]">
-            One partner. Every touchpoint.
+            {get("home_why_headline", "One partner. Every touchpoint.")}
           </h2>
           <div className="mt-8 max-w-lg space-y-5 text-base leading-relaxed text-muted-foreground md:text-lg">
-            <p>
-              A customer may discover a business through Instagram, visit its website, read its
-              Google reviews, receive its flyer, and eventually walk through the door.
-            </p>
-            <p>Those experiences shouldn't feel disconnected.</p>
+            <Copy value={get("home_why_body", "")}>
+              <>
+                <p>
+                  A customer may discover a business through Instagram, visit its website, read its
+                  Google reviews, receive its flyer, and eventually walk through the door.
+                </p>
+                <p>Those experiences shouldn't feel disconnected.</p>
+              </>
+            </Copy>
           </div>
         </Reveal>
 

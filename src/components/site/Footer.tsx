@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Logo } from "./Logo";
+import { useSiteContent } from "@/lib/content";
 
 const services = [
   { to: "/social-media-marketing", label: "Social Media" },
@@ -17,6 +18,8 @@ const company = [
 ] as const;
 
 export function Footer() {
+  const { get } = useSiteContent();
+
   return (
     <footer className="bg-ivory text-ink border-t border-rule">
       <div className="shell pt-16 pb-10">
@@ -31,8 +34,10 @@ export function Footer() {
             </Link>
             <p className="eyebrow text-ink/60">Edmonton, Alberta — Canada</p>
             <p className="mt-6 max-w-xs text-sm leading-relaxed text-ink/60">
-              A marketing agency for businesses that want their brand to look the part —
-              online and offline.
+              {get(
+                "footer_text",
+                "A marketing agency for businesses that want their brand to look the part — online and offline.",
+              )}
             </p>
           </div>
 
