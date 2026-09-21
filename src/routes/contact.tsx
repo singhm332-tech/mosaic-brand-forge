@@ -104,11 +104,13 @@ function ContactPage() {
         <Reveal>
           <Eyebrow>Contact</Eyebrow>
           <h1 className="display mt-8 max-w-4xl text-[clamp(2.75rem,8vw,6rem)]">
-            Start a project.
+            {get("contact_headline", "Start a project.")}
           </h1>
           <p className="mt-8 max-w-xl text-lg leading-relaxed text-muted-foreground">
-            Tell us where your business is today and where you want it to go. We'll reply within
-            two business days.
+            {get(
+              "contact_intro",
+              "Tell us where your business is today and where you want it to go. We'll reply within two business days.",
+            )}
           </p>
         </Reveal>
       </section>
@@ -195,29 +197,38 @@ function ContactPage() {
             <div>
               <h2 className="eyebrow text-muted-foreground">Email</h2>
               <a
-                href="mailto:admosaic1819@gmail.com"
+                href={`mailto:${email}`}
                 className="mt-3 block text-lg transition-colors duration-200 hover:text-accent"
               >
-                admosaic1819@gmail.com
+                {email}
               </a>
             </div>
+            {phone ? (
+              <div>
+                <h2 className="eyebrow text-muted-foreground">Phone</h2>
+                <a
+                  href={`tel:${phone.replace(/[^+\d]/g, "")}`}
+                  className="mt-3 block text-lg transition-colors duration-200 hover:text-accent"
+                >
+                  {phone}
+                </a>
+              </div>
+            ) : null}
             <div>
               <h2 className="eyebrow text-muted-foreground">Instagram</h2>
               <a
-                href="https://instagram.com/admosaicmarketing"
+                href={get("social_instagram", "https://instagram.com/admosaicmarketing")}
                 target="_blank"
                 rel="noreferrer noopener"
                 className="mt-3 block text-lg transition-colors duration-200 hover:text-accent"
               >
-                @admosaicmarketing
+                {get("contact_instagram_handle", "@admosaicmarketing")}
               </a>
             </div>
             <div>
               <h2 className="eyebrow text-muted-foreground">Based in</h2>
-              <p className="mt-3 text-lg">
-                Edmonton, Alberta
-                <br />
-                Canada
+              <p className="mt-3 text-lg whitespace-pre-line">
+                {get("contact_location", "Edmonton, Alberta\nCanada")}
               </p>
             </div>
           </Reveal>
