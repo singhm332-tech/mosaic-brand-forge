@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Reveal } from "@/components/site/Reveal";
-import { Copy, Eyebrow, Section } from "@/components/site/Primitives";
+import { Copy, Eyebrow, Section, T } from "@/components/site/Primitives";
 import { FinalCta } from "@/components/site/ServicePage";
 import { useSiteContent } from "@/lib/content";
 import heroImg from "@/assets/hero-collateral.jpg";
@@ -80,7 +80,9 @@ function AboutPage() {
           </Reveal>
 
           <Reveal delay={80}>
-            <h2 className="eyebrow text-muted-foreground">How we work</h2>
+            <h2 className="eyebrow text-muted-foreground">
+              {get("about_how_heading", "How we work")}
+            </h2>
             <dl className="mt-8">
               {[
                 ["Specific over clever", "Every decision answers a business question first."],

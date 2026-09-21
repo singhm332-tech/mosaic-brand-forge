@@ -1,7 +1,8 @@
 import type { ReactNode } from "react";
 import { Reveal } from "./Reveal";
-import { Arrow, ButtonLink, Eyebrow, ScrollButton, Section } from "./Primitives";
+import { Arrow, ButtonLink, Copy, Eyebrow, ScrollButton, Section, T } from "./Primitives";
 import { services, type ServiceRoute } from "@/data/site";
+import { useSiteContent } from "@/lib/content";
 
 export function ServicePage({
   index,
@@ -142,19 +143,29 @@ export function ServicePage({
 }
 
 export function FinalCta() {
+  const { get } = useSiteContent();
+
   return (
     <Section tone="dark" className="py-32 md:py-44">
       <div className="shell">
         <Reveal>
           <h2 className="display text-[clamp(2.5rem,8vw,6.5rem)]">
-            Let's make your business
-            <br />
-            harder to ignore.
+            <T value={get("cta_headline", "")}>
+              <>
+                Let's make your business
+                <br />
+                harder to ignore.
+              </>
+            </T>
           </h2>
-          <p className="mt-8 max-w-lg text-base leading-relaxed text-ink-muted md:text-lg">
-            Tell us where your business is today and where you want it to go. We'll help
-            determine what gets you there.
-          </p>
+          <div className="mt-8 max-w-lg space-y-4 text-base leading-relaxed text-ink-muted md:text-lg">
+            <Copy value={get("cta_body", "")}>
+              <p>
+                Tell us where your business is today and where you want it to go. We'll help
+                determine what gets you there.
+              </p>
+            </Copy>
+          </div>
           <div className="mt-12 flex flex-wrap gap-4">
             <ButtonLink to="/contact" variant="onDark">
               Start a Project <Arrow />
