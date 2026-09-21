@@ -3,6 +3,7 @@ import { useState, type FormEvent } from "react";
 import { Reveal } from "@/components/site/Reveal";
 import { Arrow, Eyebrow, Section } from "@/components/site/Primitives";
 import { services } from "@/data/site";
+import { useSiteContent } from "@/lib/content";
 import { supabase } from "@/integrations/supabase/client";
 import { z } from "zod";
 
@@ -41,6 +42,9 @@ const leadSchema = z.object({
 });
 
 function ContactPage() {
+  const { get } = useSiteContent();
+  const email = get("contact_email", "admosaic1819@gmail.com");
+  const phone = get("contact_phone", "");
   const [sent, setSent] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
